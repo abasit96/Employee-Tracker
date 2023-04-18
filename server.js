@@ -32,7 +32,7 @@ const mainMenu = async () => {
         choices: ["View All Employees", "Add Employee", "Update Employee Role", "View All Roles", "Add Role", "View All Departments", "Add Department", "Exit"]
     })
 
-    while(answer.choice !== 'Exit') {
+    while (answer.choice !== 'Exit') {
         // VIEW ALL EMPLOYEES
         if (answer.choice == "View All Employees") {
             await viewAllEmployees();
@@ -51,7 +51,7 @@ const mainMenu = async () => {
 
         // ADD ROLE
         if (answer.choice == "Add Role") {
-            // TODO
+            addRole();
         }
 
         // VIEW ALL DEPARTMENTS
@@ -83,7 +83,7 @@ const viewAllEmployees = async () => {
         console.log('\n');
         console.log(result)
         const _result = result.map((emp) => {
-            if(emp.manager){
+            if (emp.manager) {
                 result.find()
             }
         })
@@ -93,7 +93,7 @@ const viewAllEmployees = async () => {
 }
 
 const viewAllRoles = async () => {
-    await db.promise().query("SELECT role.title as 'Job Title', role.id as 'Role Id', department.name as Department, role.salary as Salary FROM role INNER JOIN department ON role.department_id = department.id;").then(([result,err]) => {
+    await db.promise().query("SELECT role.title as 'Job Title', role.id as 'Role Id', department.name as Department, role.salary as Salary FROM role INNER JOIN department ON role.department_id = department.id;").then(([result, err]) => {
         console.log('\n');
         console.table(result);
     })
@@ -127,6 +127,40 @@ const addDepartment = () => {
             })
         })
 }
+
+const addRole = () => {
+    const Departments = db.query("SELECT id, name FROM department");
+
+    inquirer.prompt([
+        {
+            name: "role",
+            type: "input",
+            message: "Enter new role"
+        },
+        {
+            name: "salary",
+            type: "input",
+            message: "Enter this role's salary"
+        },
+        {
+            name: "department",
+            type: "list",
+            message: "Select which department this role is in",
+            choices: Departments,
+        }
+    ]).then(response => {
+        const departmentId = departmentNames[response.department];
+        const sql = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)' [response.role, response.salary, departmentId];
+        db.query(sql, (err, res) => {
+          if (err) {
+            console.error(err.message);
+            return;
+          }
+          console.log('Role has been added.');
+          init();
+        });
+      });
+    }
 
 
 
