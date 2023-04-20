@@ -6,7 +6,8 @@
 ## Demonstration
 Link to video: https://drive.google.com/file/d/1UqEv67uXahDos06NrjN53d2togNvbthr/view
 
-Screenshots: ![Screenshot](./Images/Screenshot1.png)
+Screenshots: 
+![Screenshot](./Images/Screenshot1.png)
 ![Screenshot](./Images/Screenshot2.png)
 ![Screenshot](./Images/Screenshot3.png)
 ![Screenshot](./Images/Screenshot4.png)
