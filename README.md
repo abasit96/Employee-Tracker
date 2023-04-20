@@ -7,6 +7,7 @@
 Link to video: https://drive.google.com/file/d/1UqEv67uXahDos06NrjN53d2togNvbthr/view
 
 Screenshots: 
+
 ![Screenshot](./Images/Screenshot1.png)
 ![Screenshot](./Images/Screenshot2.png)
 ![Screenshot](./Images/Screenshot3.png)
@@ -29,7 +30,9 @@ Screenshots:
 
 ## Installation & Usage
 For installantion, run < npm i > in the terminal.
+
 After the dependencies have installed, create a .env file in which you will put the following:
+
 DB_NAME = "employee_tracker_db"
 DB_USER = < Your Username >
 DB_PASSWORD = < Your Password >
