@@ -1,14 +1,14 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql2");
+require("dotenv").config();
 require("console.table")
 
 const db = mysql.createConnection({
     host: "localhost",
-    user: "root",
-    password: "1010",
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
     database: "employee_tracker_db"
-})
-
+  });
 const addEmployee = async () => {
 
     const [allRoles] = await db.promise().query("SELECT * FROM role;")
