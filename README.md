@@ -16,8 +16,7 @@ Screenshots:
 ## Table of Contents
 * [Description](#description)
 * [Technologies](#technologies)
-* [Installation and Usuage](#installation & Usage)
-* [Usage](#usage)
+* [Instructions](#instructions)
 * [License](#license)
 * [Questions](#questions)
 
@@ -28,7 +27,7 @@ Screenshots:
 * jQuery
 * Javascript
 
-## Installation & Usage
+## Instructions
 For installantion, run < npm i > in the terminal.
 
 After the dependencies have installed, create a .env file in which you will put the following:
