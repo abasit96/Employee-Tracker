@@ -161,6 +161,14 @@ const mainMenu = async () => {
     if (answer.choice == "Remove Department"){
         await removeDepartment();
     }
+    // REMOVE EMPLOYEE
+    if (answer.choice == "Remove Employee"){
+        await removeEmployee();
+    }
+    // REMOVE ROLE
+    if (answer.choice == "Remove Role"){
+        await removeRole();
+    }
 
     console.log('\n')
     // answer = await inquirer.prompt({
@@ -223,31 +231,7 @@ const addDepartment = () => {
             mainMenu()
         })
 }
-const removeDepartment = async () => {
-    const [allDepartments] = await db.promise().query("SELECT * FROM department");
 
-    const departmentChoices = allDepartments.map(dept => {
-        return {
-            name: dept.name,
-            value: dept.id
-        }
-    })
-
-    await inquirer.prompt({
-        type: "list",
-        name: "department_id",
-        message: "Which department do you want to remove?",
-        choices: departmentChoices
-    })
-    .then(answers => {
-        const sql = 'DELETE FROM department WHERE id = ?;'
-        const values = [answers.department_id]
-        db.query(sql, values, (err, result) => {
-            console.log("Department removed!");
-            mainMenu();
-        })
-    })
-}
 
 const addRole = async () => {
     const [Departments] = await db.promise().query("SELECT id, name FROM department");
