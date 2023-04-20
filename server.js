@@ -121,7 +121,7 @@ const mainMenu = async () => {
         type: "list",
         name: "choice",
         message: "What would you like to do?",
-        choices: ["View All Employees", "Add Employee", "Update Employee Role", "View All Roles", "Add Role", "View All Departments", "Add Department", "Update Employee Role", "Exit"]
+        choices: ["View All Employees", "Add Employee", "Update Employee Role", "View All Roles", "Add Role", "View All Departments", "Add Department", "Update Employee Role", "Remove Department", "Remove Employee", "Remove Role", "Exit"]
     })
 
     // while (answer.choice !== 'Exit') {
@@ -212,6 +212,7 @@ const viewAllDepartments = async () => {
     db.query("SELECT * FROM department;", (err, result) => {
         console.log('\n');
         console.table(result);
+        mainMenu()
     })
     return;
 }
@@ -279,6 +280,95 @@ const addRole = async () => {
         });
     });
 }
+const removeDepartment = async () => {
+    const [allDepartments] = await db.promise().query("SELECT * FROM department");
+
+    const departmentChoices = allDepartments.map(dept => {
+        return {
+            name: dept.name,
+            value: dept.id
+        }
+    })
+
+    await inquirer.prompt([
+        {
+            type: "list",
+            name: "department_id",
+            message: "Which department do you want to remove?",
+            choices: departmentChoices
+        }
+    ])
+        .then(answers => {
+            const sql = 'DELETE FROM department WHERE id = ?;'
+            const values = [
+                answers.department_id
+            ]
+            db.query(sql, values, (err, result) => {
+                console.log("Department removed!");
+                mainMenu()
+            })
+        })
+}
+const removeEmployee = async () => {
+    // Prompt the user to select the employee to be removed
+    const [allEmployees] = await db.promise().query("SELECT * FROM employee");
+  
+    const employeeChoices = allEmployees.map((emp) => {
+      return {
+        name: `${emp.first_name} ${emp.last_name}`,
+        value: emp.id,
+      };
+    });
+  
+    const { employee_id } = await inquirer.prompt({
+      type: "list",
+      name: "employee_id",
+      message: "Which employee do you want to remove?",
+      choices: employeeChoices,
+    });
+  
+    // Delete the employee record from the database
+    const sql = "DELETE FROM employee WHERE id = ?";
+    const values = [employee_id];
+    db.query(sql, values, (err, result) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(`Employee ${employee_id} removed from the database.`);
+        mainMenu();
+      }
+    });
+  };
+  const removeRole = async () => {
+    //Prompt the user to select the Role to be removed
+    const [allRoles] = await db.promise().query("SELECT * FROM role");
+
+    const roleChoices = allRoles.map((role) => {
+        return {
+            name:  `${role.title} ${role.salary}`,
+            value: role.id,
+        };
+    });
+    
+    const { role_id } = await inquirer.prompt({
+        type: "list",
+        name: "role_id",
+        message: "Which role do you want to remove?",
+        choices: roleChoices,
+    });
+
+    // Delete the role record from the database
+    const sql = "DELETE FROM role WHERE id = ?";
+    const values = [role_id];
+    db.query(sql, values, (err, result) => {
+        if (err) {
+            console.error(err);
+        } else {
+            console.log(`Role ${role_id} removed from the database.`);
+            mainMenu();
+        }
+    })
+  };
 
 
 
